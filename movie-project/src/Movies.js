@@ -1,5 +1,7 @@
 import React from "react";
 import "./styles.css";
+import Search from'./components/Search.js'
+
 
 class Movies extends React.Component {
   constructor(props) {
@@ -8,11 +10,14 @@ class Movies extends React.Component {
       error: null,
       isLoaded: false,
       movies: [],
+      search: Search.value
     };
   }
 
+
 makeApiCall = () => {
-    fetch(`https://api.themoviedb.org/3/search/movie?api_key=abaeae31ed3533178d4c9e0e5b33a4c6&language=en-US&query=terminator&page=1&include_adult=false`)
+  console.log((Search.value))
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=abaeae31ed3533178d4c9e0e5b33a4c6&language=en-US&query=${this.state.search}page=1&include_adult=false`)
       .then(response => response.json())
       .then(
         (jsonifiedResponse) => {
@@ -37,7 +42,6 @@ makeApiCall = () => {
 
   render() {
     const { error, isLoaded, movies } = this.state;
-    console.log(movies)
     if (error) {
       return <React.Fragment>Error: {error.message}</React.Fragment>;
     } else if (!isLoaded) {
